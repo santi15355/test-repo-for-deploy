@@ -1,14 +1,10 @@
 name: deploy on Linux
-
 on:
   push:
-    branches: [ main ]
-    
+    branches: [ main ]    
 jobs:
-
   build:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK
@@ -24,7 +20,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: target/*.jar
+          path: ${{github.workspace}}/target/*.jar
 
   deploy:
     needs: build
@@ -43,5 +39,5 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USERNAME"@"$HOST"
-          sshpass -p "$PASSWORD" scp target/*.jar "$USERNAME"@"$HOST":/usr/bin/apps/
+          sshpass -p "$PASSWORD" scp ${{github.workspace}}/target/*.jar "$USERNAME"@"$HOST":/usr/bin/apps/
           sshpass -p "$PASSWORD" ssh "$USERNAME"@"$HOST" "cd /usr/bin/apps/ && nohup java -jar *.jar &"
