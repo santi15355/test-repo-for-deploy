@@ -19,7 +19,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          files: test.jar
+          name: test
           path: ${{github.workspace}}/build/libs/*.jar
 
   deploy:
@@ -30,7 +30,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          files: test.jar
+          name: test
 
       - name: Deploy to server
         env:
