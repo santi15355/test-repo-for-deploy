@@ -19,7 +19,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: test
+          name: test.jar
           path: ${{github.workspace}}/build/libs/*.jar
 
   deploy:
@@ -30,7 +30,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: test
+          name: test.jar
 
       - name: Deploy to server
         env:
@@ -38,6 +38,5 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
-          sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USERNAME"@"$HOST"
           sshpass -p "$PASSWORD" scp test.zip "$USERNAME"@"$HOST":/usr/bin/apps/
           #sshpass -p "$PASSWORD" ssh "$USERNAME"@"$HOST" "cd /usr/bin/apps/ && nohup java -jar *.jar &"
