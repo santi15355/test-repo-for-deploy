@@ -17,10 +17,10 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
       - name: Upload artifact
-        uses: actions/checkout@v4
+        uses: actions/upload-artifact@v4
         with:
-          name: /target
-          path: ${{github.workspace}}/build/libs/*.jar
+          name: test
+          path: /build/libs/*.jar
 
   deploy:
     needs: build
@@ -39,5 +39,5 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USERNAME"@"$HOST"
-          sshpass -p "$PASSWORD" scp test.jar "$USERNAME"@"$HOST":/usr/bin/apps/
+          sshpass -p "$PASSWORD" scp *.jar "$USERNAME"@"$HOST":/usr/bin/apps/
           #sshpass -p "$PASSWORD" ssh "$USERNAME"@"$HOST" "cd /usr/bin/apps/ && nohup java -jar *.jar &"
