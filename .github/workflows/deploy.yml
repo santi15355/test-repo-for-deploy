@@ -1,4 +1,4 @@
-yamlname: deploy
+yamlname: deploy on Linux
 
 on:
   push:
