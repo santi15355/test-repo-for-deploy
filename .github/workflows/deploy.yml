@@ -24,7 +24,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: ${{github.workspace}}/build/libs/*.jar
+          path: ${{github.workspace}}/build/libs/untitled-1.0-SNAPSHOT.jar
 
   deploy:
     needs: build
@@ -43,5 +43,5 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USERNAME"@"$HOST"
-          sshpass -p "$PASSWORD" scp ${{github.workspace}}/build/libs/*.jar "$USERNAME"@"$HOST":/usr/bin/apps/
+          sshpass -p "$PASSWORD" scp ${{github.workspace}}/build/libs/untitled-1.0-SNAPSHOT.jar "$USERNAME"@"$HOST":/usr/bin/apps/
           sshpass -p "$PASSWORD" ssh "$USERNAME"@"$HOST" "cd /usr/bin/apps/ && nohup java -jar *.jar &"
