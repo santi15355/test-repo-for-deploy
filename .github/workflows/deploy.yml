@@ -42,6 +42,5 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
-          sshpass -p "$PASSWORD" ssh "$USERNAME"@"$HOST"
           sshpass -p "$PASSWORD" -o StrictHostKeyChecking=no scp ${{github.workspace}}/build/libs/*.jar "$USERNAME"@"$HOST":/usr/bin/apps/
           sshpass -p "$PASSWORD" ssh "$USERNAME"@"$HOST" "cd /usr/bin/apps/ && nohup java -jar *.jar &"
